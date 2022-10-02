@@ -1,0 +1,20 @@
+version: '3'
+services:
+  java-srv:
+    build:
+      context: java-srv
+    volumes:
+      - ./java-srv/log:/root/log
+    depends_on:
+      - db
+    links:
+      - "db:db"
+
+  db:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_DB=animal
+      - POSTGRES_USER=maria
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - ./db/sql:/docker-entrypoint-initdb.d
